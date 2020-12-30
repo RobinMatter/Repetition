@@ -10,9 +10,13 @@ def welcome():
 #def math():
 #  return "calculator: "
 
+def add(x, y):
+  result = x + y
+  return result
 
+x = 4
 math = [
-  { "1 + 1": 1+1}
+  {  x "+" "y": add(2,3)}
 ]
 
 
@@ -25,3 +29,7 @@ def get_math():
 def add_math():
   math.append(request.get_json())
   return '', 204
+
+########################################################################################################################
+#def add(x, y):
+# return x + y
