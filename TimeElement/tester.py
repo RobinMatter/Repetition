@@ -1,10 +1,9 @@
-from roboti import name
-import pytest
 
-def test_name():
-    if name == "Hugo":
-        print("11")
-        assert False
-    else:
-        print("22")
-        assert True
+import pytest
+from index import add
+
+
+
+
+def test_add():
+    assert add(7, 3) == 10

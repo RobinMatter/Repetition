@@ -2,6 +2,7 @@ from flask import Flask, jsonify, request
 app = Flask(__name__)
 
 
+
 @app.route("/")
 def welcome():
   return "Welcome to TimeElement"
@@ -14,11 +15,11 @@ def add(x, y):
   result = x + y
   return result
 
-x = 4
-math = [
-  {  x "+" "y": add(2,3)}
-]
 
+math = [
+  {"result1": add(2,3)},
+  {"result2": add(6,5)}
+]
 
 @app.route('/math')
 def get_math():
@@ -27,9 +28,21 @@ def get_math():
 
 @app.route('/math', methods=['POST'])
 def add_math():
-  math.append(request.get_json())
-  return '', 204
+  new_key = ''
 
-########################################################################################################################
-#def add(x, y):
-# return x + y
+  result = request.get_json()
+  assert len(result) == 1
+  for r in result:
+    new_key = r
+
+  found = False
+  for element in math:
+    if new_key in element.keys():
+      print("Add", new_key)
+      element[new_key] = add(element[new_key],result[new_key])
+      found = True
+
+  if found == True:
+    math.append(result)
+
+  return '', 204
