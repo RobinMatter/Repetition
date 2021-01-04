@@ -28,8 +28,6 @@ list_add = [
 def get_addition():
   return  jsonify(list_add)
 
-
-@app.route('/calculator/plus', methods=['POST'])
 def add_addition():
   new_key = ''
 
@@ -39,17 +37,22 @@ def add_addition():
     new_key = r
 
   found = False
-  for element in list_add:
+  for element in list:
     if new_key in element.keys():
-      print("Add", new_key)
-      element[new_key] = add(element[new_key],input[new_key])
+      element[new_key] = operator(element[new_key],input[new_key])
       found = True
 
   if found == False:
-    list_add.append(input)
+    list.append(input)
 
   return '', 204
 
+
+list = list_add
+operator = add
+
+@app.route('/calculator/plus', methods=['POST'])
+add_addition()
 ########################################################################################################################
 #minus
 def sub(x, y):
@@ -173,36 +176,3 @@ def add_multiplication():
 
 
 ########################################################################################################################
-#main
-
-
-
-
-list_main = [
-  {"result1": add(2,3)},
-  {"result2": add(6,5)}
-]
-list_main = list_add + list_sub
-
-@app.route('/calculator/main')
-def get_main():
-  return  jsonify(list_main)
-
-
-def add_main():
-  new_key = ''
-
-  for r in list_add:
-    new_key = r
-
-  found = False
-  for element in list_sub:
-    if new_key in element.keys():
-      print("main", new_key)
-      element[new_key] = add(element[new_key],list_add[new_key])
-      found = True
-
-  if found == False:
-    list_mul.append(list_add)
-
-  return '', 204
