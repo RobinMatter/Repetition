@@ -7,42 +7,41 @@ app = Flask(__name__)
 def welcome():
   return "Welcome to TimeElement"
 
-#@app.route("/math")
-#def math():
-#  return "calculator: "
+
 
 def add(x, y):
   result = x + y
   return result
 
 
-math = [
+list = [
   {"result1": add(2,3)},
   {"result2": add(6,5)}
 ]
 
-@app.route('/math')
-def get_math():
-  return  jsonify(math)
+
+@app.route('/additor')
+def get_additor():
+  return  jsonify(list)
 
 
-@app.route('/math', methods=['POST'])
-def add_math():
+@app.route('/additor', methods=['POST'])
+def add_additor():
   new_key = ''
 
-  result = request.get_json()
-  assert len(result) == 1
-  for r in result:
+  input = request.get_json()
+  assert len(input) == 1
+  for r in input:
     new_key = r
 
   found = False
-  for element in math:
+  for element in list:
     if new_key in element.keys():
       print("Add", new_key)
-      element[new_key] = add(element[new_key],result[new_key])
+      element[new_key] = add(element[new_key],input[new_key])
       found = True
 
-  if found == True:
-    math.append(result)
+  if found == False:
+    list.append(input)
 
   return '', 204
