@@ -1,68 +1,104 @@
 import self as self
 from flask import Flask, jsonify, request
+
 app = Flask(__name__)
 
+
 def key_from_element(element):
-  assert len(element) == 1
-  for key in element:
-    return key
+    assert len(element) == 1
+    for key in element:
+        return key
+
+
+def combine_two_lists(key, dic, element, value):
+    if key in dic:
+        dic[key] = dic[key] + value
+    else:
+        dic[key] = element[key]
+
+def get_directory_with_elements_from_two_lists(list1, list2):
+    list_main = list1 + list2
+    dic = {}
+    for element in list_main:
+        key = ''
+        for r in element:
+            key = r
+
+        if key in dic:
+            dic[key] = dic[key] + element[key]
+        else:
+            dic[key] = element[key]
+    return  jsonify(dic)
+
 
 class DataStore:
 
-  def __init__(self):
-    self.__data_list = []
+    def __init__(self):
+        self.__data_list = []
 
-  def append(self, element):
-    self.__data_list.append(element)
+    def append(self, element):
+        self.__data_list.append(element)
 
-  def sum(self, key, value1, value2):
-    element = {}
-    element[key] = value1 + value2
-    self.append(element)
+    def sum(self, key, value1, value2):
+        element = {}
+        element[key] = value1 + value2
+        self.append(element)
+
+    def add(self, key, value):
+        element = {}
+        element[key] += value
+        self.append(element)
+
+    def dif(self, key, value1, value2):
+        element = {}
+        element[key] = value1 - value2
+        self.append(element)
+
+    def quo(self, key, value1, value2):
+        element = {}
+        if value2 == 0:
+            raise Exception("You can't divide by 0")
+        else:
+            element[key] = value1 / value2
+            self.append(element)
+
+    def mul(self, key, value1, value2):
+        element = {}
+        element[key] = value1 * value2
+        self.append(element)
+
+    def get_list(self):
+        return self.__data_list
+
+    def get_keys(self):
+        keys = {}
+        for element in self.__data_list:
+            key_element = ''
+            for r in element:
+                key_element = r
+            keys[key_element] = True
+        return keys
+
+    def exist(self, key):
+        if key in self.get_keys():
+            return True
+        else:
+            return False
 
 
-  def add(self, key, value):
-    element = {}
-    element[key] += value
-    self.append(element)
-
-
-  def dif(self, key, value1, value2):
-    element = {}
-    element[key] = value1 - value2
-    self.append(element)
-
-
-  def get_list(self):
-    return self.__data_list
-
-  def get_keys(self):
-    keys = {}
-    for element in self.__data_list:
-      key_element = ''
-      for r in element:
-        key_element = r
-      keys[key_element] = True
-    return keys
-
-  def exist(self, key):
-    if key in self.get_keys():
-      return True
-    else:
-      return False
 
 
 @app.route("/")
 def welcome():
-  return "Welcome to TimeElement"
+    return "Welcome to TimeElement"
 
 
 ########################################################################################################################
-#plus
+# plus
 
 def add(x, y):
-  result = x + y
-  return result
+    result = x + y
+    return result
 
 
 bank_data = DataStore()
@@ -73,23 +109,25 @@ bank_data.sum("result1", 8, 5)
 
 @app.route('/calculator/plus')
 def get_addition():
-  return  jsonify(bank_data.get_list())
+    return jsonify(bank_data.get_list())
 
 
 @app.route('/calculator/plus', methods=['POST'])
 def add_addition():
-  element = request.get_json()
-  key = key_from_element(element)
+    element = request.get_json()
+    print(element)
+    key = key_from_element(element)
 
-  if bank_data.exist(key):
-    bank_data.add(key, element[key])
-  else:
-    bank_data.append(element)
+    if bank_data.exist(key):
+        bank_data.add(key, element[key])
+    else:
+        bank_data.append(element)
 
-  return '', 204
+    return '', 204
+
 
 ########################################################################################################################
-#minus
+# minus
 
 
 post_data = DataStore()
@@ -99,128 +137,124 @@ post_data.dif("result2", 6, 20)
 
 @app.route('/calculator/minus')
 def get_substraction():
-  return  jsonify(post_data.get_list())
+    return jsonify(post_data.get_list())
 
 
 @app.route('/calculator/minus', methods=['POST'])
 def add_substraction():
-  new_key = ''
+    element = request.get_json()
+    key = key_from_element(element)
 
-  input = request.get_json()
-  new_key = key_from_element(input)
+    if post_data.exist(key):
+        post_data.add(key, element[key])
+    else:
+        post_data.append(element)
 
-  found = False
-  for element in post_data.get_list():
-    if new_key in element.keys():
-      print("sub", new_key)
-      element[new_key] = sub(element[new_key],input[new_key])
-      found = True
-
-  if found == False:
-    post_data.append(input)
-
-  return '', 204
+    return '', 204
 
 
 ########################################################################################################################
-#divide
+# divide
 
 def div(x, y):
-  result = x / y
-  return result
+    result = x / y
+    return result
 
+kred_data = DataStore()
+kred_data.quo("result1", 9, 3)
+kred_data.quo("result2", 8, 2)
 
-list_div = [
-  {"result1": div(9,3)},
-  {"result2": div(24,2)}
-]
 
 @app.route('/calculator/divide')
 def get_division():
-  return  jsonify(list_div)
+    return jsonify(kred_data.get_list())
+
 
 
 @app.route('/calculator/divide', methods=['POST'])
 def add_division():
-  new_key = ''
+    new_key = ''
 
-  input = request.get_json()
-  new_key = key_from_element(input)
+    element = request.get_json()
+    key = key_from_element(element)
+    if kred_data.exist(key):
+        kred_data.quo(key, element[key])
+    else:
+        kred_data.append(element)
 
-  found = False
-  for element in list_div:
-    if new_key in element.keys():
-      print("div", new_key)
-      if input[new_key] == 0:
-        raise Exception("You can't divide by 0")
-      else:
-        element[new_key] = div(element[new_key],input[new_key])
-        found = True
+    return '', 204
 
-  if found == False:
-    list_div.append(input)
 
-  return '', 204
 
 
 ########################################################################################################################
-#multiply
+# multiply
 
 def mul(x, y):
-  result = x * y
-  return result
+    result = x * y
+    return result
 
+deb_data = DataStore()
+deb_data.mul("result1", 8, 3)
+deb_data.mul("result2", 6, 5)
 
-list_mul = [
-  {"result1": mul(8,3)},
-  {"result2": mul(6,5)}
-]
 
 @app.route('/calculator/multiply')
 def get_multiplication():
-  return  jsonify(list_mul)
+    return jsonify(deb_data.get_list())
 
 
 @app.route('/calculator/multiply', methods=['POST'])
 def add_multiplication():
-  new_key = ''
+    new_key = ''
 
-  input = request.get_json()
-  new_key = key_from_element(input)
+    input = request.get_json()
+    new_key = key_from_element(input)
 
-  found = False
-  for element in list_mul:
-    if new_key in element.keys():
-      print("mul", new_key)
-      element[new_key] = mul(element[new_key],input[new_key])
-      found = True
+    element = request.get_json()
+    key = key_from_element(element)
+    if deb_data.exist(key):
+        deb_data.mul(key, element[key])
+    else:
+        deb_data.append(element)
 
-  if found == False:
-    list_mul.append(input)
-
-  return '', 204
+    return '', 204
 
 
 ########################################################################################################################
-#main
+# main
 
 
 list_main = [
-  {"result1": add(2,3)},
-  {"result2": add(6,5)}
+    {"result1": add(2, 3)},
+    {"result2": add(6, 5)}
 ]
-list_main = bank_data.get_list() + post_data.get_list()
+
+
 
 @app.route('/calculator/main')
 def get_main():
-  dic = {}
-  for element in list_main:
-    key = ''
-    for r in element:
-      key = r
+    get_directory_with_elements_from_two_lists(bank_data.get_list(),  post_data.get_list())
 
-    if key in dic:
-      dic[key] = dic[key] + element[key]
-    else:
-      dic[key] = element[key]
-  return  jsonify(dic)
+
+
+
+
+
+
+# def combine_two_lists(key, dic, element, value):
+#     if key in dic:
+#         dic[key] = dic[key] + value
+#     else:
+#         dic[key] = element[key]
+#
+
+
+# @app.route('/calculator/main')
+# def get_main():
+#   dic = {}
+#   for element in list_main:
+#     key = ''
+#     key_from_element(element)
+#     combine_two_lists(key, dic, element, element[key])
+#   return  jsonify(dic)
