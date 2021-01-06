@@ -1,6 +1,3 @@
-
-import pytest
-
 from DataStore import DataStore
 
 # def key_from_element(element):
@@ -13,7 +10,10 @@ def test_DataStore():
     bank_data.sum("result1", 2, 3)
     bank_data.quo("result1", 2, 4)
     assert [{'result1': 5}, {'result1': 0.5}] == bank_data.get_list()
-    assert False
+    bank_data.quo("robin", 4, 2)
+    bank_data.quo("robin", 4, 8)
+    bank_data.quo("peter", 7, 3)
+    #assert bank_data.get_value("peter") == 7/3
 
 
 

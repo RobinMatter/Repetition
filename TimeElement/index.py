@@ -1,90 +1,32 @@
 import self as self
+from DataStore import DataStore
 from flask import Flask, jsonify, request
 
 app = Flask(__name__)
 
 
-def key_from_element(element):
-    assert len(element) == 1
-    for key in element:
-        return key
 
-
-def combine_two_lists(key, dic, element, value):
-    if key in dic:
-        dic[key] = dic[key] + value
-    else:
-        dic[key] = element[key]
-
-def get_directory_with_elements_from_two_lists(list1, list2):
-    list_main = list1 + list2
-    dic = {}
-    for element in list_main:
-        key = ''
-        for r in element:
-            key = r
-
-        if key in dic:
-            dic[key] = dic[key] + element[key]
-        else:
-            dic[key] = element[key]
-    return  jsonify(dic)
-
-
-class DataStore:
-
-    def __init__(self):
-        self.__data_list = []
-
-    def append(self, element):
-        self.__data_list.append(element)
-
-    def sum(self, key, value1, value2):
-        element = {}
-        element[key] = value1 + value2
-        self.append(element)
-
-    def add(self, key, value):
-        element = {}
-        element[key] += value
-        self.append(element)
-
-    def dif(self, key, value1, value2):
-        element = {}
-        element[key] = value1 - value2
-        self.append(element)
-
-    def quo(self, key, value1, value2):
-        element = {}
-        if value2 == 0:
-            raise Exception("You can't divide by 0")
-        else:
-            element[key] = value1 / value2
-            self.append(element)
-
-    def mul(self, key, value1, value2):
-        element = {}
-        element[key] = value1 * value2
-        self.append(element)
-
-    def get_list(self):
-        return self.__data_list
-
-    def get_keys(self):
-        keys = {}
-        for element in self.__data_list:
-            key_element = ''
-            for r in element:
-                key_element = r
-            keys[key_element] = True
-        return keys
-
-    def exist(self, key):
-        if key in self.get_keys():
-            return True
-        else:
-            return False
-
+#
+# def combine_two_lists(key, dic, element, value):
+#     if key in dic:
+#         dic[key] = dic[key] + value
+#     else:
+#         dic[key] = element[key]
+#
+# def get_directory_with_elements_from_two_lists(list1, list2):
+#     list_main = list1 + list2
+#     dic = {}
+#     for element in list_main:
+#         key = ''
+#         for r in element:
+#             key = r
+#
+#         if key in dic:
+#             dic[key] = dic[key] + element[key]
+#         else:
+#             dic[key] = element[key]
+#     return  jsonify(dic)
+#
 
 
 
@@ -226,18 +168,24 @@ def add_multiplication():
 
 
 list_main = [
-    {"result1": add(2, 3)},
-    {"result2": add(6, 5)}
+  {"result1": add(2,3)},
+  {"result2": add(6,5)}
 ]
-
-
+list_main = bank_data.get_list() + post_data.get_list()
 
 @app.route('/calculator/main')
 def get_main():
-    get_directory_with_elements_from_two_lists(bank_data.get_list(),  post_data.get_list())
+  dic = {}
+  for element in list_main:
+    key = ''
+    for r in element:
+      key = r
 
-
-
+    if key in dic:
+      dic[key] = dic[key] + element[key]
+    else:
+      dic[key] = element[key]
+  return  jsonify(dic)
 
 
 
