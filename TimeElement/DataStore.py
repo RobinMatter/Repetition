@@ -1,54 +1,52 @@
-
-
-def key_from_element(element):
-    assert len(element) == 1
-    for key in element:
-        return key
-
-
 class DataStore:
     def __init__(self):
         self.__data_list = []
 
-    def append(self, element):
-        self.__data_list.append(element)
-
     def get_value(self, key):
-        pass
-
-    def sum(self, key, value1, value2):
-        element = {key: value1 + value2}
-        self.append(element)
+        for element in self.__data_list:
+            key_from_element = list(element)[0]
+            if key == key_from_element:
+                return element[key], True
+        else:
+            return 0, False
 
     def add(self, key, value):
-        element = {}
-        element[key] += value
-        self.append(element)
+        '''increase value for an existing element or develop a new element'''
+        for element in self.__data_list:
+            if key == list(element)[0]:
+                element[key] += value
+                break
+        else:
+            self.__data_list.append({key: value})
+
+    def min(self, key, value):
+        self.add(key, -value)
+
+    def sum(self, key, value1, value2):
+        value = value1 + value2
+        self.add(key, value)
 
     def dif(self, key, value1, value2):
-        element = {key: value1 - value2}
-        self.append(element)
+        self.sum(key, value1, -value2)
 
     def quo(self, key, value1, value2):
         if value2 == 0:
             raise ZeroDivisionError("You can't divide by 0")
-        element = {key: value1 / value2}
-        self.append(element)
+        value = value1 / value2
+        self.add(key, value)
 
     def mul(self, key, value1, value2):
-        element = {key: value1 * value2}
-        self.append(element)
+        value = value1 * value2
+        self.add(key, value)
 
     def get_list(self):
         return self.__data_list
 
     def get_keys(self):
-        keys = {}
+        keys = []
         for element in self.__data_list:
-            key_element = ''
-            for r in element:
-                key_element = r
-            keys[key_element] = True
+            key = list(element)[0]
+            keys[key] = True
         return keys
 
     def exist(self, key):

@@ -1,7 +1,6 @@
 import self as self
 from DataStore import DataStore
 from flask import Flask, jsonify, request
-
 app = Flask(__name__)
 
 
@@ -29,7 +28,6 @@ app = Flask(__name__)
 #
 
 
-
 @app.route("/")
 def welcome():
     return "Welcome to TimeElement"
@@ -47,6 +45,7 @@ bank_data = DataStore()
 bank_data.sum("result1", 2, 3)
 bank_data.sum("result1", 6, 5)
 bank_data.sum("result1", 8, 5)
+bank_data.add()
 
 
 @app.route('/calculator/plus')
@@ -55,16 +54,14 @@ def get_addition():
 
 
 @app.route('/calculator/plus', methods=['POST'])
+
+
 def add_addition():
     element = request.get_json()
-    print(element)
-    key = key_from_element(element)
+    key = list(element)[0]
+    value = element[key]
 
-    if bank_data.exist(key):
-        bank_data.add(key, element[key])
-    else:
-        bank_data.append(element)
-
+    bank_data.add(key,value)
     return '', 204
 
 
@@ -85,12 +82,10 @@ def get_substraction():
 @app.route('/calculator/minus', methods=['POST'])
 def add_substraction():
     element = request.get_json()
-    key = key_from_element(element)
+    key = list(element)[0]
+    value = element[key]
 
-    if post_data.exist(key):
-        post_data.add(key, element[key])
-    else:
-        post_data.append(element)
+    post_data.min(key, value)
 
     return '', 204
 
@@ -172,7 +167,7 @@ list_main = [
   {"result2": add(6,5)}
 ]
 list_main = bank_data.get_list() + post_data.get_list()
-
+list_main = bank_data + post_data
 @app.route('/calculator/main')
 def get_main():
   dic = {}
