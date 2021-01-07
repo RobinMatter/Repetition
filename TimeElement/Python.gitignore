@@ -1,0 +1,11 @@
+#files to ignore on github
+__pycache__
+*__init__.cpython-38.pyc
+*index.cpython-38.pyc
+README.MD
+__init__.py
+robot.py
+roboti.py
+test_example.py
+test_robot.py
+tester.py
