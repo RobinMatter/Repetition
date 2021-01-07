@@ -45,7 +45,7 @@ bank_data = DataStore()
 bank_data.sum("result1", 2, 3)
 bank_data.sum("result1", 6, 5)
 bank_data.sum("result1", 8, 5)
-bank_data.add()
+
 
 
 @app.route('/calculator/plus')
@@ -167,7 +167,7 @@ list_main = [
   {"result2": add(6,5)}
 ]
 list_main = bank_data.get_list() + post_data.get_list()
-list_main = bank_data + post_data
+#list_main = bank_data + post_data
 @app.route('/calculator/main')
 def get_main():
   dic = {}
