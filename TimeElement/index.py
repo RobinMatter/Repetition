@@ -145,9 +145,6 @@ def get_multiplication():
 def add_multiplication():
     new_key = ''
 
-    input = request.get_json()
-    new_key = key_from_element(input)
-
     element = request.get_json()
     key = key_from_element(element)
     if deb_data.exist(key):
