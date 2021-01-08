@@ -1,31 +1,8 @@
-import self as self
 from DataStore import DataStore
 from flask import Flask, jsonify, request
 app = Flask(__name__)
 
 
-
-#
-# def combine_two_lists(key, dic, element, value):
-#     if key in dic:
-#         dic[key] = dic[key] + value
-#     else:
-#         dic[key] = element[key]
-#
-# def get_directory_with_elements_from_two_lists(list1, list2):
-#     list_main = list1 + list2
-#     dic = {}
-#     for element in list_main:
-#         key = ''
-#         for r in element:
-#             key = r
-#
-#         if key in dic:
-#             dic[key] = dic[key] + element[key]
-#         else:
-#             dic[key] = element[key]
-#     return  jsonify(dic)
-#
 
 
 @app.route("/")
@@ -180,21 +157,3 @@ def get_main():
   return  jsonify(dic)
 
 
-
-
-# def combine_two_lists(key, dic, element, value):
-#     if key in dic:
-#         dic[key] = dic[key] + value
-#     else:
-#         dic[key] = element[key]
-#
-
-
-# @app.route('/calculator/main')
-# def get_main():
-#   dic = {}
-#   for element in list_main:
-#     key = ''
-#     key_from_element(element)
-#     combine_two_lists(key, dic, element, element[key])
-#   return  jsonify(dic)
