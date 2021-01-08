@@ -7,7 +7,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def welcome():
-    return "Welcome to TimeElement"
+    return "Welcome to your budget_tracker: track your personal finance for your financial success"
 
 
 ########################################################################################################################
@@ -25,12 +25,12 @@ bank_data.sum("result1", 8, 5)
 
 
 
-@app.route('/calculator/plus')
+@app.route('/calculator/incomes')
 def get_addition():
     return jsonify(bank_data.get_list())
 
 
-@app.route('/calculator/plus', methods=['POST'])
+@app.route('/calculator/incomes', methods=['POST'])
 
 
 def add_addition():
@@ -51,12 +51,12 @@ post_data.dif("result1", 8, 3)
 post_data.dif("result2", 6, 20)
 
 
-@app.route('/calculator/minus')
+@app.route('/calculator/expenses')
 def get_substraction():
     return jsonify(post_data.get_list())
 
 
-@app.route('/calculator/minus', methods=['POST'])
+@app.route('/calculator/expenses', methods=['POST'])
 def add_substraction():
     element = request.get_json()
     key = list(element)[0]
