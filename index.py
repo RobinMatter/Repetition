@@ -25,12 +25,12 @@ bank_data.sum("result1", 8, 5)
 
 
 
-@app.route('/calculator/incomes')
+@app.route('/incomes')
 def get_addition():
     return jsonify(bank_data.get_list())
 
 
-@app.route('/calculator/incomes', methods=['POST'])
+@app.route('/incomes', methods=['POST'])
 
 
 def add_addition():
@@ -51,12 +51,12 @@ post_data.dif("result1", 8, 3)
 post_data.dif("result2", 6, 20)
 
 
-@app.route('/calculator/expenses')
+@app.route('/expenses')
 def get_substraction():
     return jsonify(post_data.get_list())
 
 
-@app.route('/calculator/expenses', methods=['POST'])
+@app.route('/expenses', methods=['POST'])
 def add_substraction():
     element = request.get_json()
     key = list(element)[0]
@@ -79,13 +79,13 @@ kred_data.quo("result1", 9, 3)
 kred_data.quo("result2", 8, 2)
 
 
-@app.route('/calculator/divide')
+@app.route('/ROI')
 def get_division():
     return jsonify(kred_data.get_list())
 
 
 
-@app.route('/calculator/divide', methods=['POST'])
+@app.route('/ROI', methods=['POST'])
 def add_division():
     new_key = ''
 
@@ -113,12 +113,12 @@ deb_data.mul("result1", 8, 3)
 deb_data.mul("result2", 6, 5)
 
 
-@app.route('/calculator/multiply')
+@app.route('/value')
 def get_multiplication():
     return jsonify(deb_data.get_list())
 
 
-@app.route('/calculator/multiply', methods=['POST'])
+@app.route('/value', methods=['POST'])
 def add_multiplication():
     new_key = ''
 
@@ -142,7 +142,7 @@ list_main = [
 ]
 list_main = bank_data.get_list() + post_data.get_list()
 #list_main = bank_data + post_data
-@app.route('/calculator/main')
+@app.route('/main')
 def get_main():
   dic = {}
   for element in list_main:
