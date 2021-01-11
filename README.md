@@ -1,5 +1,5 @@
 ## Budget Tracker
-###Table of contents
+### Table of contents
 1. [ Introduction. ](#intro)
 2. [ How to install. ](#install)
 3. [ How to start it. ](#start)
