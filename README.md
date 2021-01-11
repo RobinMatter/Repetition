@@ -14,9 +14,9 @@ This program was written during an internship at TimeElement to repeat the thing
 
 <a name="install"></a>
 ### 2. How to install
-Copy this into your terminal
+Create directory budget_tracker and change in to it. Then copy command below into your terminal.
 ```bash
-git clone https://github.com/RobinMatter/budget_tracker.git
+git pull https://github.com/RobinMatter/budget_tracker.git
 ```
 
 <a name="start"></a>
@@ -38,19 +38,19 @@ flask run -h 0.0.0.0
 <a name="use"></a>
 ### 4. How to use it
 On the first webpage, you will be welcomed by the budget tracker. When you change the URL to `/incomes` you can see all your given incomes under their categories. The same is true under `/expenses` just for the expenses. Under `/value` and `/ROI` you can look up the value or the ROI of an asset. So that the program can show you your financial situation, you first need to give it the right information’s for the program understandable way. It is not thought to list assets like currencies as an income or in main. You just give the program the information about the gains or losses an asset made.
-#### `/incomes`
+#### /incomes
 To give the program a new income you post it as an input into the terminal. This should look like this: Attention that everything is customized right to your example. You print the name of the income source at the space wherein the example the salary is placed. Where the 5500 is written you print in your earned money. At the end of the post, it is written `/incomes` for adding an income you use this ending. Change it for posting to other webpages like `/expenses`.
 ```bash
 curl -X POST -H "Content-Type: application/json" -d '{ "salary": 5500 }' http://localhost:5000/incomes
 ```
-#### `/expenses`
+#### /expenses
 It works the same as `/incomes` just that you post your expenses and not your incomes.
 Here an example:
  ```bash
 curl -X POST -H "Content-Type: application/json" -d '{ "car": 120}' http://localhost:5000/expenses
 ```
 
-#### `/value`
+#### /value
 For using ‘/value` you need to look up if the category you want to get the value of is already listed under `/value`. If it is so, your next input will be multiplied with the listed value. Because of that you should give de percentage increase or decrease as a number. For example “1.2” for a 20% price increase. 
 ```bash
 curl -X POST -H "Content-Type: application/json" -d '{ "Tesla Stock": 1.2}' http://localhost:5000/value
@@ -59,7 +59,7 @@ But if the category does not already exist, it must be added first with an input
 ```bash
 curl -X POST -H "Content-Type: application/json" -d '{ "Tesla Stock": 880}' http://localhost:5000/value
 ```
-#### `/ROI`
+#### /ROI
 The “ROI” stands for return on investment and can be calculated by dividing the income after the expenses with the invested capital.
 %
 To use this feature make an input, in which you give a new category and as a number you give (income generated of the asset) – (expenses which the asset produce).
