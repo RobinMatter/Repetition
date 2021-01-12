@@ -1,8 +1,9 @@
+from typing import Dict, Any
+
 from DataStore import DataStore
 from flask import Flask, jsonify, request
+
 app = Flask(__name__)
-
-
 
 
 @app.route("/")
@@ -10,150 +11,108 @@ def welcome():
     return "Welcome to your budget_tracker: track your personal finance for your financial success"
 
 
-########################################################################################################################
-# plus
-
-def add(x, y):
-    result = x + y
-    return result
+income = DataStore()
+income.add_two_values_together("result1", 2, 3)
+income.add_two_values_together("result2", 6, 5)
+income.add_two_values_together("result1", 8, 5)
 
 
-bank_data = DataStore()
-bank_data.sum("result1", 2, 3)
-bank_data.sum("result1", 6, 5)
-bank_data.sum("result1", 8, 5)
-
-
-
-@app.route('/incomes')
-def get_addition():
-    return jsonify(bank_data.get_list())
+@app.route('/incomes', methods=['GET'])
+def get_posted_incomes_of_account_balance():
+    return jsonify(income.get_account_balance_data())
 
 
 @app.route('/incomes', methods=['POST'])
-
-
-def add_addition():
+def add_posted_income_to_account_balance():
     element = request.get_json()
     key = list(element)[0]
     value = element[key]
 
-    bank_data.add(key,value)
+    income.add_income_to_account_balance(key, value)
     return '', 204
 
 
-########################################################################################################################
-# minus
-
-
-post_data = DataStore()
-post_data.dif("result1", 8, 3)
-post_data.dif("result2", 6, 20)
+expense = DataStore()
+expense.subtract_first_value_with_second_value("result1", 8, 3)
+expense.subtract_first_value_with_second_value("result2", 6, 20)
 
 
 @app.route('/expenses')
-def get_substraction():
-    return jsonify(post_data.get_list())
+def get_posted_expense_to_account_balance():
+    return jsonify(expense.get_account_balance_data())
 
 
 @app.route('/expenses', methods=['POST'])
-def add_substraction():
+def add_posted_expense_to_account_balance():
     element = request.get_json()
     key = list(element)[0]
     value = element[key]
 
-    post_data.min(key, value)
+    expense.add_expense_to_account_balance(key, value)
 
     return '', 204
 
 
-########################################################################################################################
-# divide
-
-def div(x, y):
-    result = x / y
-    return result
-
-kred_data = DataStore()
-kred_data.quo("result1", 9, 3)
-kred_data.quo("result2", 8, 2)
+asset_value = DataStore()
+asset_value.add_values_for_ROI("result1", 9, 3)
+asset_value.add_values_for_ROI("result2", 8, 2)
 
 
 @app.route('/ROI')
-def get_division():
-    return jsonify(kred_data.get_list())
-
+def get_posted_ROI_to_account_balance():
+    return jsonify(asset_value.get_account_balance_data())
 
 
 @app.route('/ROI', methods=['POST'])
-def add_division():
-    new_key = ''
-
+def add_posted_ROI_to_account_balance():
     element = request.get_json()
-    key = key_from_element(element)
-    if kred_data.exist(key):
-        kred_data.quo(key, element[key])
-    else:
-        kred_data.append(element)
+    key = list(element)[0]
+    value = element[key]
+
+    asset_value.add_ROI_to_account_balance(key, value)
+
 
     return '', 204
 
 
-
-
-########################################################################################################################
-# multiply
-
-def mul(x, y):
-    result = x * y
-    return result
-
-deb_data = DataStore()
-deb_data.mul("result1", 8, 3)
-deb_data.mul("result2", 6, 5)
+asset_value = DataStore()
+asset_value.add_values_to_estimate_asset_value_to_account_balance("result1", 8, 3)
+asset_value.add_values_to_estimate_asset_value_to_account_balance("result2", 6, 5)
 
 
 @app.route('/value')
-def get_multiplication():
-    return jsonify(deb_data.get_list())
+def get_posted_value_to_account_balance():
+    return jsonify(asset_value.get_account_balance_data())
 
 
 @app.route('/value', methods=['POST'])
-def add_multiplication():
-    new_key = ''
-
+def add_posted_value_to_account_balance():
     element = request.get_json()
-    key = key_from_element(element)
-    if deb_data.exist(key):
-        deb_data.mul(key, element[key])
-    else:
-        deb_data.append(element)
+    key = list(element)[0]
+    value = element[key]
+
+    asset_value.add_value_to_account_balance(key, value)
 
     return '', 204
 
 
-########################################################################################################################
-# main
 
-
-list_main = [
-  {"result1": add(2,3)},
-  {"result2": add(6,5)}
-]
-list_main = bank_data.get_list() + post_data.get_list()
-#list_main = bank_data + post_data
-@app.route('/main')
-def get_main():
-  dic = {}
-  for element in list_main:
-    key = ''
-    for r in element:
-      key = r
-
-    if key in dic:
-      dic[key] = dic[key] + element[key]
-    else:
-      dic[key] = element[key]
-  return  jsonify(dic)
-
-
+#
+# list_main = income.get_account_balance_data() + expense.get_account_balance_data()
+#
+# income.add_two_values_together("result2", 6, 5)
+# income.add_two_values_together("result1", 8, 5)
+#
+#
+# # list_main = bank_data + post_data
+# @app.route('/spread-sheet')
+# def get_main():
+#     global key, element
+#     dic: Dict[Any, Any] = {}
+#     for element in list_main:
+#             key = list(element)[0]
+#         if key not in dic:
+#             dic[key] = element[key]
+#         else:
+#             dic[key] = dic[key] + element[key]
+#     return jsonify(dic)
