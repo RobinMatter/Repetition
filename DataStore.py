@@ -1,6 +1,9 @@
+import json
+
 class DataStore:
     def __init__(self):
         self.__data_list = []
+
 
     def get_value_of_account_balance(self, key):
         for element in self.__data_list:
@@ -42,7 +45,10 @@ class DataStore:
             self.__data_list.append({key: value})
 
     def get_account_balance_data(self):
-        return self.__data_list
+        f = open("data.json")
+        data = f.read()
+        f.close()
+        return data
 
     def get_key_of_account_balance(self):
         keys = []
