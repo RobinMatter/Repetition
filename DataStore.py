@@ -6,7 +6,10 @@ class DataStore:
 
 
     def get_value_of_account_balance(self, key):
-        for element in self.__data_list:
+        f = open("data.json")
+        contents = f.read()
+        f.close()
+        for element in contents:
             key_from_element = list(element)[0]
             if key == key_from_element:
                 return element[key], True
@@ -20,6 +23,8 @@ class DataStore:
                 element[key] += value
                 break
         else:
+            with open('data.json', 'w') as jsonfile:
+                json.dump(self.__data_list, jsonfile)
             self.__data_list.append({key: value})
 
     def add_expense_to_account_balance(self, key, value):
@@ -33,6 +38,8 @@ class DataStore:
                     element[key] = element[key] / value
                 break
         else:
+            with open('data.json', 'w') as jsonfile:
+                json.dump(self.__data_list, jsonfile)
             self.__data_list.append({key: value})
 
     def add_value_to_account_balance(self, key, value):
@@ -42,13 +49,12 @@ class DataStore:
                 element[key] = element[key] * value
                 break
         else:
+            with open('data.json', 'w') as jsonfile:
+                json.dump(self.__data_list, jsonfile)
             self.__data_list.append({key: value})
 
     def get_account_balance_data(self):
-        f = open("data.json")
-        data = f.read()
-        f.close()
-        return data
+        return self.__data_list
 
     def get_key_of_account_balance(self):
         keys = []
