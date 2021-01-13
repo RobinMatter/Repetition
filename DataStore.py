@@ -26,7 +26,8 @@ class DataStore:
         """increase value for an existing element or develop a new element"""
         for element in self.__data_list:
             if key == list(element)[0]:
-                element[key] = element[key] / value
+                if value != 0:
+                    element[key] = element[key] / value
                 break
         else:
             self.__data_list.append({key: value})

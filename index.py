@@ -12,9 +12,9 @@ def welcome():
 
 
 income = DataStore()
-income.add_two_values_together("result1", 2, 3)
-income.add_two_values_together("result2", 6, 5)
-income.add_two_values_together("result1", 8, 5)
+income.add_income_to_account_balance("salary", 2)
+income.add_income_to_account_balance("salary", 6)
+income.add_income_to_account_balance("rent", 8)
 
 
 @app.route('/incomes', methods=['GET'])
@@ -33,8 +33,8 @@ def add_posted_income_to_account_balance():
 
 
 expense = DataStore()
-expense.subtract_first_value_with_second_value("result1", 8, 3)
-expense.subtract_first_value_with_second_value("result2", 6, 20)
+expense.add_expense_to_account_balance("interest", 8)
+expense.add_expense_to_account_balance("food", 6)
 
 
 @app.route('/expenses')
@@ -53,14 +53,14 @@ def add_posted_expense_to_account_balance():
     return '', 204
 
 
-asset_value = DataStore()
-asset_value.add_values_for_ROI("result1", 9, 3)
-asset_value.add_values_for_ROI("result2", 8, 2)
+ROI = DataStore()
+ROI.add_ROI_to_account_balance("flat", 2000)
+ROI.add_ROI_to_account_balance("flat", 100000)
 
 
 @app.route('/ROI')
 def get_posted_ROI_to_account_balance():
-    return jsonify(asset_value.get_account_balance_data())
+    return jsonify(ROI.get_account_balance_data())
 
 
 @app.route('/ROI', methods=['POST'])
@@ -69,15 +69,15 @@ def add_posted_ROI_to_account_balance():
     key = list(element)[0]
     value = element[key]
 
-    asset_value.add_ROI_to_account_balance(key, value)
+    ROI.add_ROI_to_account_balance(key, value)
 
 
     return '', 204
 
 
 asset_value = DataStore()
-asset_value.add_values_to_estimate_asset_value_to_account_balance("result1", 8, 3)
-asset_value.add_values_to_estimate_asset_value_to_account_balance("result2", 6, 5)
+asset_value.add_value_to_account_balance("gold", 1500)
+asset_value.add_value_to_account_balance("gold", 1.2)
 
 
 @app.route('/value')

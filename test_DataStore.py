@@ -61,7 +61,7 @@ class TestDataStore:
         ROI = DataStore()
         ROI.add_ROI_to_account_balance("flat", 2000)
         ROI.add_ROI_to_account_balance("flat", 0)
-        assert ROI.get_value_of_account_balance("flat") == (0, False)
+        assert ROI.get_value_of_account_balance("flat") == (2000, True)
 
     def test_new_asset_value__add_values_to_estimate_asset_value_to_account_balance(self):
         assets_value = DataStore()
