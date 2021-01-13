@@ -17,74 +17,59 @@ class TestDataStore:
 
     def test_get_value_of_account_balance(self):
         income = DataStore()
-        income.add_income_to_account_balance("salary", 2000)
-        income.add_income_to_account_balance("rent income", 1500)
-        assert income.get_value_of_account_balance("robin") == (2000, True)
+        income.add_income_to_account_balance("rent income", 2000)
+        income.add_income_to_account_balance("salary", 1500)
+        assert income.get_value_of_account_balance("rent income") == (2000, True)
 
 
     def test_new_income_source__add_income_to_account_balance(self):
-        income = DataStore()
-        income.add_income_to_account_balance("salary", 2000)
-        income.add_income_to_account_balance("rent income", 1500)
-        assert income.get_value_of_account_balance("robin") == (2000, True)
+        incomes = DataStore()
+        incomes.add_income_to_account_balance("rent income", 2000)
+        incomes.add_income_to_account_balance("salary", 1500)
+        assert incomes.get_value_of_account_balance("rent income") == (2000, True)
 
     def test_existing_income_source__add_income_to_account_balance(self):
-        income = DataStore()
-        income.add_income_to_account_balance("salary", 2000)
-        income.add_income_to_account_balance("salary", 2200)
-        assert income.get_value_of_account_balance("robin") == (4200, True)
+        incomes = DataStore()
+        incomes.add_income_to_account_balance("rent income", 2000)
+        incomes.add_income_to_account_balance("rent income", 2200)
+        assert incomes.get_value_of_account_balance("rent income") == (4200, True)
 
-    def test_add_expense_to_account_balance(self):
-        income = DataStore()
+    def test_new_expense_source__add_income_to_account_balance(self):
+        expenses = DataStore()
+        expenses.add_expense_to_account_balance("salary", 2000)
+        expenses.add_expense_to_account_balance("rent income", 1500)
+        assert expenses.get_value_of_account_balance("salary") == (-2000, True)
 
+    def test_existing_expense_source__add_income_to_account_balance(self):
+        expenses = DataStore()
+        expenses.add_expense_to_account_balance("salary", 2000)
+        expenses.add_expense_to_account_balance("salary", 2200)
+        assert expenses.get_value_of_account_balance("salary") == (-4200, True)
 
-def test_min(self):
-        post_data = DataStore()
-        post_data.min("robin", 6)
-        assert post_data.get_value("robin") == (-6, True)
+    def test_new_ROI__add_ROI_to_account_balance(self):
+        ROI = DataStore()
+        ROI.add_ROI_to_account_balance("flat", 2000)
+        assert ROI.get_value_of_account_balance("flat") == (2000, True)
 
-    def test_min(self):
-        post_data = DataStore()
-        post_data.min("robin", 7)
-        assert post_data.get_value("robin") == (-1, True)
+    # def test_existing_ROI__add_ROI_to_account_balance(self):
+    #     ROI = DataStore()
+    #     ROI.add_ROI_to_account_balance("flat", 2000)
+    #     ROI.add_ROI_to_account_balance("flat", 80000)
+    #     assert ROI.get_value_of_account_balance("flat") == (0.025, True)
 
-    def test_sum(self):
-        post_data = DataStore()
-        post_data.sum("robin", 3, 7)
-        assert post_data.get_value("robin") == (9, True)
+    def test_second_post_0__add_ROI_to_account_balance(self):
+        ROI = DataStore()
+        ROI.add_ROI_to_account_balance("flat", 2000)
+        ROI.add_ROI_to_account_balance("flat", 0)
+        assert ROI.get_value_of_account_balance("flat") == (0, False)
 
-    def test_sum(self):
-        post_data = DataStore()
-        post_data.sum("bjorn", 3, 3)
-        assert post_data.get_value("bjorn") == (6, True)
+    def test_new_asset_value__add_values_to_estimate_asset_value_to_account_balance(self):
+        assets_value = DataStore()
+        assets_value.add_value_to_account_balance("gold", 1500)
+        assert assets_value.get_value_of_account_balance("gold") == (1500, True)
 
-    def test_dif(self):
-        post_data = DataStore()
-        post_data.subtract_first_value_with_second_value("robin", 3, 7)
-        assert post_data.get_value("robin") == (5, True)
-
-    def test_dif(self):
-        post_data = DataStore()
-        post_data.subtract_first_value_with_second_value("julian", 3, 3)
-        assert post_data.get_value("julian") == (0, True)
-
-    def test_quo(self):
-        post_data = DataStore()
-        post_data.add_values_for_ROI("robin", 4, 2)
-        assert post_data.get_value("robin") == (7, True)
-
-    def test_quo(self):
-        post_data = DataStore()
-        post_data.add_values_for_ROI("paul", 6, 3)
-        assert post_data.get_value("paul") == (2, True)
-        # assert post_data.quo("paul", 8, 0) == None
-
-    def test_mul(self):
-        post_data = DataStore()
-        post_data.add_values_to_estimate_asset_value("robin", 4, 2)
-        assert post_data.get_value("robin") == (15, True)
-
-    def test_mul(self):
-        post_data = DataStore()
-        post_data.add_values_to_estimate_asset_value("james", 6, 3)
-        assert post_data.get_value("james") == (18, True)
+    def test_existing_asset_value__add_values_to_estimate_asset_value_to_account_balance(self):
+        assets_value = DataStore()
+        assets_value.add_value_to_account_balance("gold", 1500)
+        assets_value.add_value_to_account_balance("gold", 1.2)
+        assert assets_value.get_value_of_account_balance("gold") == (1800, True)
