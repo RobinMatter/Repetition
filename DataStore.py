@@ -8,6 +8,7 @@ class DataStore:
         self.__data_list = []
 
 
+
     def get_value_of_account_balance(self, key):
         f = open("data.json")
         contents = f.read()
@@ -21,51 +22,54 @@ class DataStore:
 
     def add_income_to_account_balance(self, key, value):
         """increase value for an existing element or develop a new element"""
-        r = []
+        data = []
         with open("data.json") as jsonfile:
             contents = jsonfile.read()
-            r = json.loads(contents)
+            data = json.loads(contents)
             jsonfile.close()
-        print("p3", key, value, r)
-        for element in r:
-            print("y3", key, value, element)
+            print("A", key, value, data)
+
+        for element in self.__data_list:
+            print("B", key, value, element)
             if key == list(element)[0]:
                 element[key] += value
+                self.__data_list.append({key: value})
+                data.append({key: value})
+                with open('data.json', 'w') as jsonfile:
+                    json.dump(data, jsonfile)
                 break
         else:
-            print("h3", key, value)
-            r.append({key: value})
-            with open('data.json', 'w') as jsonfile:
-                json.dump(r, jsonfile)
-
-            self.__data_list = r
-
-
-    def add_expense_to_account_balance(self, key, value):
-        self.add_income_to_account_balance(key, -value)
-
-    def add_ROI_to_account_balance(self, key, value):
-        """increase value for an existing element or develop a new element"""
-        for element in self.__data_list:
-            if key == list(element)[0]:
-                if value != 0:
-                    element[key] = element[key] / value
-                break
-        else:
-            with open('data.json', 'w') as jsonfile:
-                json.dump(self.__data_list, jsonfile)
+            print("C", key, value, data)
             self.__data_list.append({key: value})
-
-    def add_value_to_account_balance(self, key, value):
-        """increase value for an existing element or develop a new element"""
-        for element in self.__data_list:
-            if key == list(element)[0]:
-                element[key] = element[key] * value
-                break
-        else:
+            data.append({key: value})
             with open('data.json', 'w') as jsonfile:
-                json.dump(self.__data_list, jsonfile)
-            self.__data_list.append({key: value})
+                json.dump(data, jsonfile)
+
+
+
+
+    # def add_income_to_account_balance(self, key, value):
+    #     """increase value for an existing element or develop a new element"""
+    #     r = []
+    #     with open("data.json") as jsonfile:
+    #         contents = jsonfile.read()
+    #         r = json.loads(contents)
+    #         jsonfile.close()
+    #     print("p3", key, value, r)
+    #     for element in r:
+    #         print("y3", key, value, element)
+    #         if key == list(element)[0]:
+    #             element[key] += value
+    #             break
+    #     else:
+    #         print("h3", key, value)
+    #         r.append({key: value})
+    #         with open('data.json', 'w') as jsonfile:
+    #             json.dump(r, jsonfile)
+    #
+    #         self.__data_list = r
+
+
 
     def get_account_balance_data(self):
         return self.__data_list
