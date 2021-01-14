@@ -2,6 +2,9 @@ import json
 
 class DataStore:
     def __init__(self):
+        f = open("data.json")
+        contents = f.read()
+        f.close()
         self.__data_list = []
 
 
@@ -18,14 +21,25 @@ class DataStore:
 
     def add_income_to_account_balance(self, key, value):
         """increase value for an existing element or develop a new element"""
-        for element in self.__data_list:
+        r = []
+        with open("data.json") as jsonfile:
+            contents = jsonfile.read()
+            r = json.loads(contents)
+            jsonfile.close()
+        print("p3", key, value, r)
+        for element in r:
+            print("y3", key, value, element)
             if key == list(element)[0]:
                 element[key] += value
                 break
         else:
+            print("h3", key, value)
+            r.append({key: value})
             with open('data.json', 'w') as jsonfile:
-                json.dump(self.__data_list, jsonfile)
-            self.__data_list.append({key: value})
+                json.dump(r, jsonfile)
+
+            self.__data_list = r
+
 
     def add_expense_to_account_balance(self, key, value):
         self.add_income_to_account_balance(key, -value)
