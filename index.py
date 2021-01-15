@@ -12,7 +12,7 @@ def welcome_user():
 
 
 income = DataStore()
-income.add_income_to_account_balance("salary", 2)
+#income.add_income_to_account_balance("salary", 2)
 #income.add_income_to_account_balance("salary", 9)
 #income.add_income_to_account_balance("rent", 8)
 

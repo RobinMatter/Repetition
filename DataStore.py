@@ -10,10 +10,11 @@ class DataStore:
 
 
     def get_value_of_account_balance(self, key):
-        f = open("data.json")
-        contents = f.read()
-        f.close()
-        for element in contents:
+        jsonfile = open("data.json")
+        data_input = jsonfile.read()
+        data = json.loads(data_input)
+        jsonfile.close()
+        for element in data:
             key_from_element = list(element)[0]
             if key == key_from_element:
                 return element[key], True
@@ -24,8 +25,8 @@ class DataStore:
         """increase value for an existing element or develop a new element"""
         data = []
         with open("data.json") as jsonfile:
-            contents = jsonfile.read()
-            data = json.loads(contents)
+            data_input = jsonfile.read()
+            data = json.loads(data_input)
             jsonfile.close()
             print("A", key, value, data)
 
@@ -33,11 +34,12 @@ class DataStore:
             print("B", key, value, element)
             if key == list(element)[0]:
                 element[key] += value
-                self.__data_list.append({key: value})
                 data.append({key: value})
                 with open('data.json', 'w') as jsonfile:
                     json.dump(data, jsonfile)
+
                 break
+
         else:
             print("C", key, value, data)
             self.__data_list.append({key: value})
@@ -72,6 +74,10 @@ class DataStore:
 
 
     def get_account_balance_data(self):
+        jsonfile = open("data.json")
+        data_input = jsonfile.read()
+        self.__data_list = json.loads(data_input)
+        jsonfile.close()
         return self.__data_list
 
     def get_key_of_account_balance(self):
