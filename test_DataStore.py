@@ -51,11 +51,11 @@ class TestDataStore:
         ROI.add_ROI_to_account_balance("flat", 2000)
         assert ROI.get_value_of_account_balance("flat") == (2000, True)
 
-    # def test_existing_ROI__add_ROI_to_account_balance(self):
-    #     ROI = DataStore()
-    #     ROI.add_ROI_to_account_balance("flat", 2000)
-    #     ROI.add_ROI_to_account_balance("flat", 80000)
-    #     assert ROI.get_value_of_account_balance("flat") == (0.025, True)
+    def test_existing_ROI__add_ROI_to_account_balance(self):
+        ROI = DataStore()
+        ROI.add_ROI_to_account_balance("flat", 2000)
+        ROI.add_ROI_to_account_balance("flat", 80000)
+        assert ROI.get_value_of_account_balance("flat") == (0.025, True)
 
     def test_second_post_0__add_ROI_to_account_balance(self):
         ROI = DataStore()
@@ -73,3 +73,11 @@ class TestDataStore:
         assets_value.add_value_to_account_balance("gold", 1500)
         assets_value.add_value_to_account_balance("gold", 1.2)
         assert assets_value.get_value_of_account_balance("gold") == (1800, True)
+
+
+    def test_make_spread_sheet(self):
+        spread_sheet = DataStore
+        list_spread_sheet = [{"salary": 1000}, {"flat": 600}, {"flat": -200}]
+        spread_sheet.make_spread_sheet(list_spread_sheet)
+        assert spread_sheet.get_value_of_account_balance("salary") == (1000, True)
+        assert spread_sheet.get_value_of_account_balance("flat") == (400, True)

@@ -37,7 +37,7 @@ flask run -h 0.0.0.0
 
 <a name="use"></a>
 ### 4. How to use it
-On the first webpage, you will be welcomed by the budget tracker. When you change the URL to `/incomes` you can see all your given incomes under their categories. The same is true under `/expenses` just for the expenses. Under `/value` and `/ROI` you can look up the value or the ROI of an asset. So that the program can show you your financial situation, you first need to give it the right information’s for the program understandable way. It is not thought to list assets like currencies as an income or in main. You just give the program the information about the gains or losses an asset made.
+On the first webpage, you will be welcomed by the budget tracker. When you change the URL to `/incomes` you can see all your given incomes under their categories. The same is true under `/expenses` just for the expenses. Under `/value` and `/ROI` you can look up the value or the ROI of an asset. So that the program can show you your financial situation, you first need to give it the right information’s for the program understandable way. It is not thought to list assets like currencies as an income or in spread-sheet. You just give the program the information about the gains or losses an asset made.
 #### /incomes
 To give the program a new income you post it as an input into the terminal. This should look like this: Attention that everything is customized right to your example. You print the name of the income source at the space wherein the example the salary is placed. Where the 5500 is written you print in your earned money. At the end of the post, it is written `/incomes` for adding an income you use this ending. Change it for posting to other webpages like `/expenses`.
 ```bash
@@ -75,7 +75,7 @@ curl -X POST -H "Content-Type: application/json" -d '{ "flat, Zürich, Höngenbe
 
 
 
-Lookup the results generated with these operators under the different categories. When you switch to calculator/main you can see your different categories from calculator/incomes and calculator/expenses. If there is the same category in incomes as in expenses they will be calculated into one. The result is your profit or your loss from something.
+Lookup the results generated with these operators under the different categories. When you switch to calculator/spread-sheet you can see your different categories from calculator/incomes and calculator/expenses. If there is the same category in incomes as in expenses they will be calculated into one. The result is your profit or your loss from something.
 To post something on these pages use this command customized to your problem.
 
 ```bash

@@ -1,3 +1,4 @@
+
 class DataStore:
     def __init__(self):
         self.__data_list = []
@@ -11,7 +12,6 @@ class DataStore:
             return 0, False
 
     def add_income_to_account_balance(self, key, value):
-        """increase value for an existing element or develop a new element"""
         for element in self.__data_list:
             if key == list(element)[0]:
                 element[key] += value
@@ -23,7 +23,6 @@ class DataStore:
         self.add_income_to_account_balance(key, -value)
 
     def add_ROI_to_account_balance(self, key, value):
-        """increase value for an existing element or develop a new element"""
         for element in self.__data_list:
             if key == list(element)[0]:
                 while True:
@@ -39,13 +38,24 @@ class DataStore:
             self.__data_list.append({key: value})
 
     def add_value_to_account_balance(self, key, value):
-        """increase value for an existing element or develop a new element"""
         for element in self.__data_list:
             if key == list(element)[0]:
                 element[key] = element[key] * value
                 break
         else:
             self.__data_list.append({key: value})
+
+
+    def make_spread_sheet(self, list_spread_sheet):
+        dictionary = {}
+        for element in list_spread_sheet:
+            key = list(element)[0]
+            if key in dictionary:
+                dictionary[key] += element[key]
+            else:
+                dictionary[key] = element[key]
+        self.__data_list.append({key: dictionary[key]})
+
 
     def get_account_balance_data(self):
         return self.__data_list

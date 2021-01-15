@@ -14,7 +14,7 @@ def welcome():
 income = DataStore()
 income.add_income_to_account_balance("salary", 2)
 income.add_income_to_account_balance("salary", 6)
-income.add_income_to_account_balance("rent", 8)
+income.add_income_to_account_balance("flat", 800)
 
 
 @app.route('/incomes', methods=['GET'])
@@ -33,12 +33,12 @@ def add_posted_income_to_account_balance():
 
 
 expense = DataStore()
-expense.add_expense_to_account_balance("interest", 8)
+expense.add_expense_to_account_balance("flat", 200)
 expense.add_expense_to_account_balance("food", 6)
 
 
 @app.route('/expenses')
-def get_posted_expense_to_account_balance():
+def get_posted_expense_of_account_balance():
     return jsonify(expense.get_account_balance_data())
 
 
@@ -59,7 +59,7 @@ ROI.add_ROI_to_account_balance("flat", 100000)
 
 
 @app.route('/ROI')
-def get_posted_ROI_to_account_balance():
+def get_posted_ROI_of_account_balance():
     return jsonify(ROI.get_account_balance_data())
 
 
@@ -71,7 +71,6 @@ def add_posted_ROI_to_account_balance():
 
     ROI.add_ROI_to_account_balance(key, value)
 
-
     return '', 204
 
 
@@ -81,7 +80,7 @@ asset_value.add_value_to_account_balance("gold", 1.2)
 
 
 @app.route('/value')
-def get_posted_value_to_account_balance():
+def get_posted_value_of_account_balance():
     return jsonify(asset_value.get_account_balance_data())
 
 
@@ -97,22 +96,19 @@ def add_posted_value_to_account_balance():
 
 
 
-#
-# list_main = income.get_account_balance_data() + expense.get_account_balance_data()
-#
-# income.add_two_values_together("result2", 6, 5)
-# income.add_two_values_together("result1", 8, 5)
-#
-#
-# # list_main = bank_data + post_data
-# @app.route('/spread-sheet')
-# def get_main():
-#     global key, element
-#     dic: Dict[Any, Any] = {}
-#     for element in list_main:
-#             key = list(element)[0]
-#         if key not in dic:
-#             dic[key] = element[key]
-#         else:
-#             dic[key] = dic[key] + element[key]
-#     return jsonify(dic)
+spread_sheet = DataStore
+list_spread_sheet = income.get_account_balance_data() + expense.get_account_balance_data()
+
+
+@app.route('/spread-sheet')
+def get_spread_sheet():
+    dictionary = {}
+    for element in list_spread_sheet:
+        key = list(element)[0]
+        if key in dictionary:
+            dictionary[key] += element[key]
+        else:
+            dictionary[key] = element[key]
+    return jsonify(dictionary)
+    #spread_sheet.append({key: dictionary[key]})
+    #spread_sheet.make_spread_sheet(list_spread_sheet)
