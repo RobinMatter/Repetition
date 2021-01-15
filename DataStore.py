@@ -1,20 +1,9 @@
-import json
-
 class DataStore:
     def __init__(self):
-        f = open("data.json")
-        contents = f.read()
-        f.close()
         self.__data_list = []
 
-
-
     def get_value_of_account_balance(self, key):
-        jsonfile = open("data.json")
-        data_input = jsonfile.read()
-        data = json.loads(data_input)
-        jsonfile.close()
-        for element in data:
+        for element in self.__data_list:
             key_from_element = list(element)[0]
             if key == key_from_element:
                 return element[key], True
@@ -23,61 +12,42 @@ class DataStore:
 
     def add_income_to_account_balance(self, key, value):
         """increase value for an existing element or develop a new element"""
-        data = []
-        with open("data.json") as jsonfile:
-            data_input = jsonfile.read()
-            data = json.loads(data_input)
-            jsonfile.close()
-            print("A", key, value, data)
-
         for element in self.__data_list:
-            print("B", key, value, element)
             if key == list(element)[0]:
                 element[key] += value
-                data.append({key: value})
-                with open('data.json', 'w') as jsonfile:
-                    json.dump(data, jsonfile)
+                break
+        else:
+            self.__data_list.append({key: value})
 
+    def add_expense_to_account_balance(self, key, value):
+        self.add_income_to_account_balance(key, -value)
+
+    def add_ROI_to_account_balance(self, key, value):
+        """increase value for an existing element or develop a new element"""
+        for element in self.__data_list:
+            if key == list(element)[0]:
+                while True:
+                    try:
+                        element[key] = element[key] / value
+                        break
+                    except ZeroDivisionError:
+                        print("You can't give \"0\" as an second input")
+                        break
                 break
 
         else:
-            print("C", key, value, data)
             self.__data_list.append({key: value})
-            data.append({key: value})
-            with open('data.json', 'w') as jsonfile:
-                json.dump(data, jsonfile)
 
-
-
-
-    # def add_income_to_account_balance(self, key, value):
-    #     """increase value for an existing element or develop a new element"""
-    #     r = []
-    #     with open("data.json") as jsonfile:
-    #         contents = jsonfile.read()
-    #         r = json.loads(contents)
-    #         jsonfile.close()
-    #     print("p3", key, value, r)
-    #     for element in r:
-    #         print("y3", key, value, element)
-    #         if key == list(element)[0]:
-    #             element[key] += value
-    #             break
-    #     else:
-    #         print("h3", key, value)
-    #         r.append({key: value})
-    #         with open('data.json', 'w') as jsonfile:
-    #             json.dump(r, jsonfile)
-    #
-    #         self.__data_list = r
-
-
+    def add_value_to_account_balance(self, key, value):
+        """increase value for an existing element or develop a new element"""
+        for element in self.__data_list:
+            if key == list(element)[0]:
+                element[key] = element[key] * value
+                break
+        else:
+            self.__data_list.append({key: value})
 
     def get_account_balance_data(self):
-        jsonfile = open("data.json")
-        data_input = jsonfile.read()
-        self.__data_list = json.loads(data_input)
-        jsonfile.close()
         return self.__data_list
 
     def get_key_of_account_balance(self):
@@ -92,4 +62,3 @@ class DataStore:
             return True
         else:
             return False
-

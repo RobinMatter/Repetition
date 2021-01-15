@@ -33,3 +33,43 @@ class TestDataStore:
         incomes.add_income_to_account_balance("rent income", 2000)
         incomes.add_income_to_account_balance("rent income", 2200)
         assert incomes.get_value_of_account_balance("rent income") == (4200, True)
+
+    def test_new_expense_source__add_income_to_account_balance(self):
+        expenses = DataStore()
+        expenses.add_expense_to_account_balance("salary", 2000)
+        expenses.add_expense_to_account_balance("rent income", 1500)
+        assert expenses.get_value_of_account_balance("salary") == (-2000, True)
+
+    def test_existing_expense_source__add_income_to_account_balance(self):
+        expenses = DataStore()
+        expenses.add_expense_to_account_balance("salary", 2000)
+        expenses.add_expense_to_account_balance("salary", 2200)
+        assert expenses.get_value_of_account_balance("salary") == (-4200, True)
+
+    def test_new_ROI__add_ROI_to_account_balance(self):
+        ROI = DataStore()
+        ROI.add_ROI_to_account_balance("flat", 2000)
+        assert ROI.get_value_of_account_balance("flat") == (2000, True)
+
+    # def test_existing_ROI__add_ROI_to_account_balance(self):
+    #     ROI = DataStore()
+    #     ROI.add_ROI_to_account_balance("flat", 2000)
+    #     ROI.add_ROI_to_account_balance("flat", 80000)
+    #     assert ROI.get_value_of_account_balance("flat") == (0.025, True)
+
+    def test_second_post_0__add_ROI_to_account_balance(self):
+        ROI = DataStore()
+        ROI.add_ROI_to_account_balance("flat", 2000)
+        ROI.add_ROI_to_account_balance("flat", 0)
+        assert ROI.get_value_of_account_balance("flat") == (2000, True)
+
+    def test_new_asset_value__add_values_to_estimate_asset_value_to_account_balance(self):
+        assets_value = DataStore()
+        assets_value.add_value_to_account_balance("gold", 1500)
+        assert assets_value.get_value_of_account_balance("gold") == (1500, True)
+
+    def test_existing_asset_value__add_values_to_estimate_asset_value_to_account_balance(self):
+        assets_value = DataStore()
+        assets_value.add_value_to_account_balance("gold", 1500)
+        assets_value.add_value_to_account_balance("gold", 1.2)
+        assert assets_value.get_value_of_account_balance("gold") == (1800, True)
