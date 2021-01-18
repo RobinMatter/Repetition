@@ -110,5 +110,3 @@ def get_spread_sheet():
         else:
             dictionary[key] = element[key]
     return jsonify(dictionary)
-    #spread_sheet.append({key: dictionary[key]})
-    #spread_sheet.make_spread_sheet(list_spread_sheet)
