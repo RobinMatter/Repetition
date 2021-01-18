@@ -54,7 +54,7 @@ https://palletsprojects.com/p/flask/
 
 <a name="install"></a>
 ### 3. How to install
-Create directory budget_tracker and change in to it. Then copy the command below into your terminal.
+Copy the command below into your terminal.
 ```bash
 git clone https://github.com/RobinMatter/budget_tracker.git
 ```
@@ -64,7 +64,7 @@ git clone https://github.com/RobinMatter/budget_tracker.git
 There are two ways to start the program.
 
 #### Start on your computer
-To start the program on that way you need to have installed the listed programs under “2. Technologies used” and the budget_tracker itself. Then you move into the budget_tracker directory and run the bootstrap.sh file by printing ./bootstrap into the terminal.
+To start the program in that way you need to have installed the listed programs under “2. Technologies used” and the budget_tracker itself "3. How to install". Then you move into the budget_tracker directory and run the bootstrap.sh file by printing ./bootstrap into the terminal.
 ``` bash
 ./bootstrap.sh
 ``` 
@@ -75,7 +75,7 @@ docker pull robinmatter/budget_tracker
 docker run robinmatter/budget_tracker
 ``` 
 
-With both variants, you will find this link http://0.0.0.0:5000/ in your terminal. Open it and you can use the program on there. If http://0.0.0.0:5000/ is already used on your computer you need to change it in the bootstrap.sh source code. Under this text, you can see the source code from bootstrap.sh. 
+With both variants, you will find this link http://0.0.0.0:5000/ in your terminal. Open it and you can use the program on the opened webpage. If http://0.0.0.0:5000/ is already used on your computer you need to change it in the bootstrap.sh source code. Under this text, you can see the source code from bootstrap.sh. 
 ```bash
 #!/bin/bash
 
@@ -106,7 +106,7 @@ For using ‘/value` you need to look up if the category you want to get the val
 ```bash
 curl -X POST -H "Content-Type: application/json" -d '{ "Tesla Stock": 1.2}' http://localhost:5000/value
 ```
-But if the category does not already exist, it must be added first with an input. In this input, you put the value the asset had before the price change. After you have done this you can post increase or decrease as I described above.
+But if the category does not already exist, it must be added first with an input. In this input, you put the value the asset had before the price change. After you have done this you can post an increase or decrease as I described above.
 ```bash
 curl -X POST -H "Content-Type: application/json" -d '{ "Tesla Stock": 880}' http://localhost:5000/value
 ```
